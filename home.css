@@ -31,170 +31,9 @@ body {
     height: 100vh;
     width: 100vw;
     transition: all 0.5s ease; /* Smooth language switch */
-}
-/* temporary */
-/* شاشة التغطية الكاملة */
-.papyrus-overlay {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 10000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 1s ease;
+    overflow-x: hidden;
 }
 
-/* ورقة البردي */
-.papyrus-paper {
-    background: #e4d5b7; /* لون البردي الأساسي */
-    background-image: url('https://www.transparenttextures.com/patterns/cardboard-flat.png'); /* ملمس الورق */
-    width: 90%;
-    max-width: 600px;
-    padding: 40px;
-    border-radius: 5px;
-    box-shadow: 0 0 30px rgba(0,0,0,0.5), inset 0 0 100px rgba(139, 69, 19, 0.2);
-    position: relative;
-    border: 2px solid #8b4513;
-    /* تأثير الأطراف الممزقة */
-    clip-path: polygon(0% 5%, 5% 0%, 95% 2%, 100% 5%, 98% 95%, 95% 100%, 5% 98%, 0% 95%);
-}
-
-.papyrus-content {
-    text-align: center;
-    color: #4b2e1e; /* لون بني داكن كالحبر القديم */
-    font-family: 'Amiri', serif;
-}
-
-.ancient-intro {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    font-weight: bold;
-}
-
-.divider {
-    height: 2px;
-    background: #8b4513;
-    width: 60%;
-    margin: 20px auto;
-    position: relative;
-}
-
-.team-names h3 { margin-bottom: 10px; text-decoration: underline; }
-.team-names ul { list-style: none; padding: 0; font-size: 1.2rem; }
-.team-names li { margin: 5px 0; font-weight: bold; }
-
-.enter-btn {
-    margin-top: 30px;
-    padding: 10px 25px;
-    background: #8b4513;
-    color: #e4d5b7;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1rem;
-    transition: 0.3s;
-}
-
-.enter-btn:hover { background: #4b2e1e; transform: scale(1.05); }
-
-/* إخفاء الشاشة */
-.papyrus-overlay.fade-out {
-    opacity: 0;
-    pointer-events: none;
-}
-/* مطر الرمل */
-#sand-container {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.sand-grain {
-    position: absolute;
-    background: #D4AF37;
-    width: 2px;
-    height: 2px;
-    opacity: 0.6;
-    border-radius: 50%;
-    animation: sandFall linear infinite;
-}
-
-@keyframes sandFall {
-    to { transform: translateY(100vh); }
-}
-
-/* ورقة البردي */
-.papyrus-paper {
-    background: #e4d5b7;
-    background-image: url('https://www.transparenttextures.com/patterns/cardboard-flat.png');
-    width: 90%;
-    max-width: 700px;
-    padding: 50px;
-    z-index: 2;
-    border: 2px solid #8b4513;
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-    clip-path: polygon(2% 0%, 98% 1%, 100% 4%, 99% 96%, 97% 100%, 3% 99%, 0% 97%, 1% 3%);
-}
-
-/* تنسيق أسماء الفريق (5 أشخاص) */
-.names-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* تقسيم لعمودين */
-    gap: 15px;
-    margin-top: 20px;
-    text-align: right;
-}
-
-.name-item {
-    color: #4b2e1e;
-    font-size: 1.1rem;
-    padding: 5px;
-    border-bottom: 1px dashed rgba(139, 69, 19, 0.3);
-}
-
-/* تأثير ريشة الكتابة */
-.ancient-intro::after {
-    content: '✒️'; /* شكل الريشة */
-    font-size: 1.2rem;
-    margin-right: 5px;
-    animation: quillMove 0.5s infinite;
-}
-
-@keyframes quillMove {
-    50% { opacity: 0; }
-}
-/* تنسيق شبكة الأسماء */
-.names-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* عمودين */
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.name-item {
-    color: #4b2e1e;
-    font-size: 0.95rem;
-    padding: 8px;
-    border-bottom: 1px dashed rgba(139, 69, 19, 0.3);
-    text-align: center;
-}
-
-/* تمييز اسم القائد */
-.leader {
-    grid-column: span 2; /* يفرش على العمودين */
-    background: rgba(212, 175, 55, 0.2); /* خلفية ذهبية خفيفة */
-    border: 1px solid #8b4513;
-    font-size: 1.1rem;
-    color: #000;
-}
-
-/* تكبير حجم الخط للرسالة */
-.ancient-intro {
-    font-size: 1.4rem !important;
-    min-height: 80px; /* عشان الورقة متتحركش وأنت بتكتب */
-}
-/* end */
 /* =========================================
    3. ENGLISH MODE OVERRIDES
    ========================================= */
@@ -216,7 +55,7 @@ body.english-mode .social-links a {
 
 body.english-mode h1 {
     letter-spacing: 15px;
-    font-size: 5rem;
+    font-size: 4.5rem;
 }
 
 /* Reverse Flex Directions for English */
@@ -254,6 +93,129 @@ body.english-mode .cta-button:hover::before {
     left: 100%;
 }
 
+/* =========================================
+   3.1 INTRO PAPYRUS STYLES
+   ========================================= */
+.papyrus-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease;
+    padding: 1rem;
+}
+
+.papyrus-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.papyrus-paper {
+    background: #e4d5b7;
+    background-image: url('https://www.transparenttextures.com/patterns/cardboard-flat.png');
+    width: 95%;
+    max-width: 700px;
+    padding: 2rem;
+    z-index: 2;
+    border: 2px solid #8b4513;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    clip-path: polygon(2% 0%, 98% 1%, 100% 4%, 99% 96%, 97% 100%, 3% 99%, 0% 97%, 1% 3%);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.papyrus-content {
+    text-align: center;
+    color: #4b2e1e;
+    font-family: 'Amiri', serif;
+}
+
+.ancient-intro {
+    font-size: 1.4rem;
+    min-height: 80px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    line-height: 1.6;
+}
+
+.ancient-intro::after {
+    content: '✒️';
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+    animation: quillMove 0.5s infinite;
+}
+
+@keyframes quillMove {
+    50% { opacity: 0; }
+}
+
+.divider {
+    height: 2px;
+    background: #8b4513;
+    width: 60%;
+    margin: 1rem auto;
+}
+
+.team-names h3 { 
+    margin-bottom: 1rem; 
+    text-decoration: underline; 
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.names-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+.name-item {
+    color: #4b2e1e;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    border-bottom: 1px dashed rgba(139, 69, 19, 0.3);
+    text-align: center;
+    line-height: 1.4;
+}
+
+.leader {
+    grid-column: span 2;
+    background: rgba(212, 175, 55, 0.2);
+    border: 1px solid #8b4513;
+    font-size: 1rem;
+    color: #000;
+    font-weight: bold;
+}
+/* تنسيق زرار الدخول في ورقة البردي */
+.enter-btn {
+    margin-top: 30px;
+    padding: 12px 30px;
+    background: #8b4513; /* لون بني غامق يليق بالبردي */
+    color: #e4d5b7; /* لون فاتح للكتابة */
+    border: 1px solid #4b2e1e;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    opacity: 0; /* هيفضل مخفي لحد ما الـ JS يظهره */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.enter-btn:hover {
+    background: #4b2e1e;
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+/* تعديل بسيط لضمان ظهور الزرار بعد الأنيميشن */
+#enter-btn {
+    display: inline-block;
+}
 /* =========================================
    4. PRELOADER (THE PORTAL)
    ========================================= */
@@ -330,6 +292,28 @@ body.english-mode .cta-button:hover::before {
 @keyframes pulse-core { 0% { opacity: 0.6; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 20px var(--gold)); } }
 @keyframes fade-text { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
+/* Sand Rain for Intro */
+#sand-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.sand-grain {
+    position: absolute;
+    background: var(--gold);
+    width: 2px;
+    height: 2px;
+    opacity: 0.6;
+    border-radius: 50%;
+    animation: sandFall linear infinite;
+}
+
+@keyframes sandFall {
+    to { transform: translateY(100vh); }
+}
+
 /* =========================================
    5. BACKGROUND
    ========================================= */
@@ -340,7 +324,7 @@ body.english-mode .cta-button:hover::before {
     width: 110%;
     height: 110%;
     z-index: -1;
-    background-image: url('Resources/UI/HomeBG.png');
+    background-image: url('resources/ui/homebg.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -363,7 +347,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem 3rem;
+    padding: 1.5rem 3rem;
     position: relative;
     z-index: 10;
 }
@@ -371,7 +355,7 @@ nav {
 .logo {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 0.75rem;
     font-family: 'Reem Kufi', sans-serif;
     font-weight: 700;
     font-size: 1.5rem;
@@ -379,7 +363,7 @@ nav {
 }
 
 .logo-img {
-    width: 40px;
+    width: 2.5rem;
     height: auto;
     filter: drop-shadow(0 0 5px var(--gold-glow));
 }
@@ -423,7 +407,7 @@ main {
 
 h1 {
     font-family: 'Reem Kufi', sans-serif;
-    font-size: 6rem;
+    font-size: 5.5rem;
     font-weight: 700;
     text-shadow: 0 10px 30px rgba(0,0,0,0.8);
     background: linear-gradient(to bottom, #fff, #b88a00);
@@ -480,13 +464,13 @@ p.subtitle {
     left: 5%;
     top: 50%;
     transform: translateY(-50%);
-    width: 280px;
-    padding: 25px;
+    width: 17.5rem;
+    padding: 1.5rem;
     background: var(--glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 8px;
+    border-radius: 0.5rem;
     transition: 0.3s;
     cursor: pointer;
     text-align: right;
@@ -494,20 +478,20 @@ p.subtitle {
 
 .artifact-card:hover {
     border-color: var(--gold);
-    transform: translateY(-52%);
+    transform: translateY(-52%) scale(1.02);
 }
 
 .artifact-label {
     font-size: 0.8rem;
     color: var(--gold);
-    margin-bottom: 10px;
+    margin-bottom: 0.625rem;
     font-weight: 700;
 }
 
 .artifact-name {
     font-family: 'Reem Kufi', sans-serif;
     font-size: 1.4rem;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
     color: #fff;
 }
 
@@ -520,10 +504,10 @@ p.subtitle {
 /* Social Links (Desktop) */
 .social-links {
     position: absolute;
-    bottom: 40px;
-    left: 50px;
+    bottom: 2.5rem;
+    left: 3.125rem;
     display: flex;
-    gap: 20px;
+    gap: 1.25rem;
     z-index: 10;
 }
 
@@ -549,7 +533,7 @@ p.subtitle {
    ========================================= */
 .timeline-container {
     position: absolute;
-    bottom: 80px; /* Raised up */
+    bottom: 5rem; /* Raised up */
     width: 70%;
     right: 15%; /* Centered */
     display: flex;
@@ -559,11 +543,11 @@ p.subtitle {
 }
 
 .timeline-info {
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     font-family: 'Reem Kufi', sans-serif;
     color: var(--gold);
     font-size: 1.2rem;
-    height: 30px;
+    height: 1.875rem;
     text-align: center;
     opacity: 0;
     transition: opacity 0.5s;
@@ -585,8 +569,8 @@ p.subtitle {
 }
 
 .timeline-dot {
-    width: 12px;
-    height: 12px;
+    width: 0.75rem;
+    height: 0.75rem;
     background-color: #333;
     border: 1px solid var(--gold);
     border-radius: 50%;
@@ -608,7 +592,7 @@ p.subtitle {
 @media screen and (max-width: 768px) {
     /* 1. Allow scrolling on mobile */
     body {
-        overflow-y: auto;
+        overflow-y: auto; /* Already here, but confirming */
     }
 
     h1 {
@@ -628,8 +612,8 @@ p.subtitle {
         height: auto;
         min-height: 100vh;
         justify-content: flex-start;
-        padding-top: 100px;
-        padding-bottom: 250px; /* IMPORTANT: Create space at bottom for Socials/Timeline */
+        padding-top: 6rem;
+        padding-bottom: 15rem; /* IMPORTANT: Create space at bottom for Socials/Timeline */
     }
 
     /* 3. Fix Artifact Card Position & Margin */
@@ -640,7 +624,7 @@ p.subtitle {
         right: auto;
         transform: none;
         width: 90%;
-        margin: 40px auto; /* Margin to separate from button */
+        margin: 2.5rem auto; /* Margin to separate from button */
         text-align: center;
         background: rgba(0, 0, 0, 0.7);
     }
@@ -658,7 +642,7 @@ p.subtitle {
         position: fixed; /* Keep pinned to bottom */
         width: 90%;
         right: 5%;
-        bottom: 70px; /* Positioned above social icons */
+        bottom: 4.5rem; /* Positioned above social icons */
         left: 5%;
         z-index: 20; /* Ensure on top of background */
         background: radial-gradient(circle, rgba(0,0,0,0.8) 0%, transparent 100%); /* Readability */
@@ -666,12 +650,12 @@ p.subtitle {
 
     .timeline-info {
         font-size: 0.9rem;
-        margin-bottom: 10px;
+        margin-bottom: 0.75rem;
     }
 
     .timeline-dot {
-        width: 15px;
-        height: 15px;
+        width: 1rem;
+        height: 1rem;
     }
 
     /* 5. Fix Social Links Position */
@@ -688,5 +672,24 @@ p.subtitle {
         left: 50%;
         right: auto;
         transform: translateX(-50%);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .papyrus-paper {
+        padding: 1.5rem 1rem;
+    }
+    .ancient-intro {
+        font-size: 1.1rem;
+        min-height: 60px;
+    }
+    .team-names h3 {
+        font-size: 1rem;
+    }
+    .names-grid {
+        grid-template-columns: 1fr; /* Single column on very small screens */
+    }
+    .leader {
+        grid-column: span 1; /* Reset span for single column */
     }
 }

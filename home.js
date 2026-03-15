@@ -166,6 +166,12 @@ document.addEventListener('mousemove', (e) => {
 /* =========================================
    6. GOLDEN SAND CURSOR TRAIL (FIXED)
    ========================================= */
+
+// Helper function to detect touch devices
+const isTouchDevice = () => {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+};
+
 // Create container for sand particles
 const cursorContainer = document.createElement('div');
 cursorContainer.style.position = 'fixed';
@@ -177,9 +183,12 @@ cursorContainer.style.pointerEvents = 'none'; // Crucial so clicks go through
 cursorContainer.style.zIndex = '9999';
 document.body.appendChild(cursorContainer);
 
-document.addEventListener('mousemove', function(e) {
-    createSand(e.clientX, e.clientY);
-});
+// Only activate the cursor trail on non-touch devices for performance
+if (!isTouchDevice()) {
+    document.addEventListener('mousemove', function(e) {
+        createSand(e.clientX, e.clientY);
+    });
+}
 
 function createSand(x, y) {
     const sand = document.createElement('div');
@@ -207,9 +216,12 @@ function createSand(x, y) {
         sand.remove();
     }, 1000);
 }
-// temporary
+
+/* =========================================
+   7. PAPYRUS INTRO SEQUENCE
+   ========================================= */
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. إنشاء مطر الرمل
+    // 1. Create Sand Rain Effect
     const container = document.getElementById('sand-container');
     for (let i = 0; i < 100; i++) {
         const grain = document.createElement('div');
@@ -220,29 +232,28 @@ document.addEventListener('DOMContentLoaded', () => {
         container.appendChild(grain);
     }
 
-    // 2. تأثير الكتابة
-   // الرسالة اللي هتتكتب حرف حرف بالريشة
-const text = "  بنقدم لحضرتك مجهود شهور من التعب والكود.. 'خريطة التراث' هو رؤيتنا كشباب لدمج تاريخنا العظيم بتكنولوجيا المستقبل. شرف لينا مناقشة حضرتك لينا، ونتمنى المشروع والعرض يكونوا عند حسن الظن.";    let index = 0;
+    // 2. Typing Effect
+    const text = "بنقدم لحضرتك مجهود شهور من التعب والكود.. 'خريطة التراث' هو رؤيتنا كشباب لدمج تاريخنا العظيم بتكنولوجيا المستقبل. شرف لينا مناقشة حضرتك لينا، ونتمنى المشروع والعرض يكونوا عند حسن الظن.";
+    let index = 0;
     const typingEl = document.getElementById('typing-text');
 
     function type() {
-        if (index < text.length) {
+        if (typingEl && index < text.length) {
             typingEl.innerHTML += text.charAt(index);
             index++;
-            setTimeout(type, 60); // سرعة الكتابة
+            setTimeout(type, 60); // Typing speed
         } else {
-            // إظهار الأسماء والزر بعد انتهاء الكتابة
+            // Reveal team names and button after typing finishes
             document.getElementById('team-section').style.transition = "opacity 2s";
             document.getElementById('team-section').style.opacity = "1";
             document.getElementById('enter-btn').style.transition = "opacity 2s";
             document.getElementById('enter-btn').style.opacity = "1";
         }
     }
-    setTimeout(type, 1000); // ابدأ الكتابة بعد ثانية
+    setTimeout(type, 1000); // Start typing after 1 second
 });
 
 function enterSite() {
     document.getElementById('papyrus-intro').classList.add('fade-out');
     setTimeout(() => document.getElementById('papyrus-intro').remove(), 1000);
 }
-// end
