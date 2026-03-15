@@ -14,7 +14,7 @@ const mapData = [
         },
         sites: [
             { 
-                img: "Resources/ui/pyramids.jpg", 
+                img: "/Resources/ui/pyramids.jpg", 
                 ar: { name: "أهرامات الجيزة", desc: "الأعجوبة الوحيدة الباقية من العالم القديم، ورمز الخلود المصري." }, 
                 en: { name: "Giza Pyramids", desc: "The last surviving wonder of the ancient world and symbol of Egyptian eternity." },
                 details: {
