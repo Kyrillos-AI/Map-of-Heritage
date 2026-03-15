@@ -32,7 +32,169 @@ body {
     width: 100vw;
     transition: all 0.5s ease; /* Smooth language switch */
 }
+/* temporary */
+/* شاشة التغطية الكاملة */
+.papyrus-overlay {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease;
+}
 
+/* ورقة البردي */
+.papyrus-paper {
+    background: #e4d5b7; /* لون البردي الأساسي */
+    background-image: url('https://www.transparenttextures.com/patterns/cardboard-flat.png'); /* ملمس الورق */
+    width: 90%;
+    max-width: 600px;
+    padding: 40px;
+    border-radius: 5px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5), inset 0 0 100px rgba(139, 69, 19, 0.2);
+    position: relative;
+    border: 2px solid #8b4513;
+    /* تأثير الأطراف الممزقة */
+    clip-path: polygon(0% 5%, 5% 0%, 95% 2%, 100% 5%, 98% 95%, 95% 100%, 5% 98%, 0% 95%);
+}
+
+.papyrus-content {
+    text-align: center;
+    color: #4b2e1e; /* لون بني داكن كالحبر القديم */
+    font-family: 'Amiri', serif;
+}
+
+.ancient-intro {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.divider {
+    height: 2px;
+    background: #8b4513;
+    width: 60%;
+    margin: 20px auto;
+    position: relative;
+}
+
+.team-names h3 { margin-bottom: 10px; text-decoration: underline; }
+.team-names ul { list-style: none; padding: 0; font-size: 1.2rem; }
+.team-names li { margin: 5px 0; font-weight: bold; }
+
+.enter-btn {
+    margin-top: 30px;
+    padding: 10px 25px;
+    background: #8b4513;
+    color: #e4d5b7;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: 0.3s;
+}
+
+.enter-btn:hover { background: #4b2e1e; transform: scale(1.05); }
+
+/* إخفاء الشاشة */
+.papyrus-overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+}
+/* مطر الرمل */
+#sand-container {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.sand-grain {
+    position: absolute;
+    background: #D4AF37;
+    width: 2px;
+    height: 2px;
+    opacity: 0.6;
+    border-radius: 50%;
+    animation: sandFall linear infinite;
+}
+
+@keyframes sandFall {
+    to { transform: translateY(100vh); }
+}
+
+/* ورقة البردي */
+.papyrus-paper {
+    background: #e4d5b7;
+    background-image: url('https://www.transparenttextures.com/patterns/cardboard-flat.png');
+    width: 90%;
+    max-width: 700px;
+    padding: 50px;
+    z-index: 2;
+    border: 2px solid #8b4513;
+    box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    clip-path: polygon(2% 0%, 98% 1%, 100% 4%, 99% 96%, 97% 100%, 3% 99%, 0% 97%, 1% 3%);
+}
+
+/* تنسيق أسماء الفريق (5 أشخاص) */
+.names-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* تقسيم لعمودين */
+    gap: 15px;
+    margin-top: 20px;
+    text-align: right;
+}
+
+.name-item {
+    color: #4b2e1e;
+    font-size: 1.1rem;
+    padding: 5px;
+    border-bottom: 1px dashed rgba(139, 69, 19, 0.3);
+}
+
+/* تأثير ريشة الكتابة */
+.ancient-intro::after {
+    content: '✒️'; /* شكل الريشة */
+    font-size: 1.2rem;
+    margin-right: 5px;
+    animation: quillMove 0.5s infinite;
+}
+
+@keyframes quillMove {
+    50% { opacity: 0; }
+}
+/* تنسيق شبكة الأسماء */
+.names-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* عمودين */
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.name-item {
+    color: #4b2e1e;
+    font-size: 0.95rem;
+    padding: 8px;
+    border-bottom: 1px dashed rgba(139, 69, 19, 0.3);
+    text-align: center;
+}
+
+/* تمييز اسم القائد */
+.leader {
+    grid-column: span 2; /* يفرش على العمودين */
+    background: rgba(212, 175, 55, 0.2); /* خلفية ذهبية خفيفة */
+    border: 1px solid #8b4513;
+    font-size: 1.1rem;
+    color: #000;
+}
+
+/* تكبير حجم الخط للرسالة */
+.ancient-intro {
+    font-size: 1.4rem !important;
+    min-height: 80px; /* عشان الورقة متتحركش وأنت بتكتب */
+}
+/* end */
 /* =========================================
    3. ENGLISH MODE OVERRIDES
    ========================================= */

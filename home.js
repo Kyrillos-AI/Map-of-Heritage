@@ -207,3 +207,42 @@ function createSand(x, y) {
         sand.remove();
     }, 1000);
 }
+// temporary
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. إنشاء مطر الرمل
+    const container = document.getElementById('sand-container');
+    for (let i = 0; i < 100; i++) {
+        const grain = document.createElement('div');
+        grain.className = 'sand-grain';
+        grain.style.left = Math.random() * 100 + '%';
+        grain.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        grain.style.animationDelay = Math.random() * 5 + 's';
+        container.appendChild(grain);
+    }
+
+    // 2. تأثير الكتابة
+   // الرسالة اللي هتتكتب حرف حرف بالريشة
+const text = "  بنقدم لحضرتك مجهود شهور من التعب والكود.. 'خريطة التراث' هو رؤيتنا كشباب لدمج تاريخنا العظيم بتكنولوجيا المستقبل. شرف لينا مناقشة حضرتك لينا، ونتمنى المشروع والعرض يكونوا عند حسن الظن.";    let index = 0;
+    const typingEl = document.getElementById('typing-text');
+
+    function type() {
+        if (index < text.length) {
+            typingEl.innerHTML += text.charAt(index);
+            index++;
+            setTimeout(type, 60); // سرعة الكتابة
+        } else {
+            // إظهار الأسماء والزر بعد انتهاء الكتابة
+            document.getElementById('team-section').style.transition = "opacity 2s";
+            document.getElementById('team-section').style.opacity = "1";
+            document.getElementById('enter-btn').style.transition = "opacity 2s";
+            document.getElementById('enter-btn').style.opacity = "1";
+        }
+    }
+    setTimeout(type, 1000); // ابدأ الكتابة بعد ثانية
+});
+
+function enterSite() {
+    document.getElementById('papyrus-intro').classList.add('fade-out');
+    setTimeout(() => document.getElementById('papyrus-intro').remove(), 1000);
+}
+// end
