@@ -1,0 +1,971 @@
+/* =========================================
+   1. FONTS IMPORTS (استعادة الخطوط)
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&family=Reem+Kufi:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Raleway:wght@300;400&display=swap');
+
+:root {
+    --gold: #D4AF37;
+    --gold-glow: rgba(212, 175, 55, 0.6);
+    --cyan: #00E5FF;
+    --cyan-glow: rgba(0, 229, 255, 0.6);
+    --green: #2ecc71;
+    --green-glow: rgba(46, 204, 113, 0.6);
+    --dark-bg: #020202;
+    --glass: rgba(5, 5, 8, 0.96);
+    --text: #f4f1ea;
+    
+    /* تعريف الخطوط */
+    --font-ar-title: 'Reem Kufi', sans-serif;
+    --font-ar-text: 'Cairo', sans-serif;
+    --font-en-title: 'Cinzel', serif;
+    --font-en-text: 'Raleway', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--dark-bg); color: var(--text);
+    font-family: var(--font-ar-text);
+    height: 100vh; width: 100vw; overflow: hidden;
+}
+
+/* تخصيص الخطوط حسب اللغة */
+body.english-mode { direction: ltr; font-family: var(--font-en-text); }
+body.english-mode h2, body.english-mode h3, body.english-mode .logo { font-family: var(--font-en-title); }
+
+/* العناوين العربية */
+h1, h2, h3, .logo, .pin-label, .panel-title, .modal-btn {
+    font-family: var(--font-ar-title);
+}
+
+/* =========================================
+   2. BACKGROUND & ANIMATION
+   ========================================= */
+.bg-container { position: fixed; inset: 0; z-index: -2; background: radial-gradient(circle at center, #0a0a0a 0%, #000 100%);
+background-image: url('Resources/UI/HomeBG.png'); 
+    
+    /* Ensures the image covers the whole screen */
+    background-size: cover; 
+    background-position: center;
+    background-repeat: no-repeat; }
+
+.tech-grid {
+    position: absolute; inset: 0; 
+    background-image: 
+        linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,175,55,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    perspective: 1000px; transform: rotateX(60deg) scale(2);
+    opacity: 0.5; pointer-events: none;
+    animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove { 0% { transform: rotateX(60deg) scale(2) translateY(0); } 100% { transform: rotateX(60deg) scale(2) translateY(40px); } }
+
+/* =========================================
+   3. DYNAMIC ISLAND NAVIGATION
+   ========================================= */
+nav {
+    position: fixed;
+    top: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    
+    /* Size */
+    width: auto;
+    min-width: 450px;
+    max-width: 95%;
+    padding: 15px 35px;
+    
+    /* Layout */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    
+    /* THE GLOWING BORDER SETUP */
+    border-radius: 50px;
+    overflow: hidden; /* Keeps the glow inside the round shape */
+    background: #000; /* Fallback */
+    border: 1px solid rgba(255,255,255,0.1);
+}
+/* 1. The Rotating Glow (Behind the content) */
+nav::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(
+        transparent, 
+        transparent, 
+        transparent, 
+        var(--gold) /* The Moving Light */
+    );
+    animation: rotateBorder 4s linear infinite;
+    z-index: 0; /* Behind the black inner island */
+}
+
+/* 2. The Inner Black Island (Where text sits) */
+nav::after {
+    content: '';
+    position: absolute;
+    inset: 2px; /* Creates the thin border line */
+    background: #000; 
+    border-radius: 48px; 
+    z-index: 0;
+}
+
+/* 3. Animation Keyframes */
+@keyframes rotateBorder {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 4. IMPORTANT: Bring text above the glow */
+.nav-left, .nav-right, #navFilterBtn {
+    position: relative;
+    z-index: 2; /* Sits on top of the black background */
+}
+/* --- FIXING THE TRANSLATION BUTTON --- */
+.lang-switch {
+    font-size: 1rem;       /* Bigger Text */
+    color: #888;
+    cursor: pointer;       /* Show Pointer Hand */
+    padding: 5px 10px;     /* Clickable Area Padding */
+    border-radius: 8px;
+    transition: 0.3s;
+    user-select: none;     /* Prevent text highlighting */
+}
+
+.lang-switch span {
+    padding: 2px 5px;
+    transition: 0.3s;
+}
+
+.lang-switch span:hover {
+    color: #fff;
+}
+
+.lang-switch span.active {
+    color: var(--gold);
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
+/* Hover Effect: Expands slightly */
+nav:hover {
+    transform: translateX(-50%) scale(1.02);
+    border-color: var(--gold);
+    box-shadow: 0 10px 40px rgba(212, 175, 55, 0.15);
+}
+
+/* Left Section (Logo + Lang) */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #fff;
+    font-size: 1rem;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.logo-img {
+    width: 25px; /* Smaller logo for compact bar */
+    height: auto;
+}
+
+/* Language Switcher */
+.lang-switch {
+    font-size: 0.8rem;
+    color: #666;
+    padding-left: 10px;
+    border-left: 1px solid #333;
+}
+
+/* Back Link (Right Side) */
+.back-link {
+    text-decoration: none;
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: bold;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.back-link:hover {
+    text-shadow: 0 0 10px var(--gold);
+}
+
+/* --- MOBILE ADJUSTMENT --- */
+@media screen and (max-width: 768px) {
+    
+    /* 1. Force Nav to stay on ONE LINE */
+    nav {
+        top: 15px;
+        width: 95%;           /* nearly full width */
+        min-width: 0;         /* Allow shrinking */
+        max-width: 100%;
+        padding: 10px 15px;   /* Smaller padding */
+        
+        flex-wrap: nowrap;    /* NEVER wrap to 2 lines */
+        gap: 10px;            /* Tighter spacing */
+        justify-content: space-between;
+    }
+    
+    .logo span {
+        display: none;       /* Hide text logo on tiny screens to save space */
+    }
+    
+    .logo-img {
+        width: 30px;
+    }
+}
+/* =========================================
+   NAV FILTER BUTTON & MENU
+   ========================================= */
+
+/* 1. The Filter Icon Button */
+.nav-icon-btn {
+    background: transparent;
+    border: none;
+    color: #bbb;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: 0.3s;
+}
+
+.nav-icon-btn:hover, .nav-icon-btn.active {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--gold);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+/* 2. The Dropdown Menu */
+.filter-dropdown {
+    position: absolute;
+    top: 100px; /* Pushes it below the island */
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    
+    width: max-content;
+    min-width: 200px;
+    
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 15px;
+    
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically like a burger menu */
+    gap: 8px;
+    
+    opacity: 0;
+    pointer-events: none; /* Not clickable when hidden */
+    visibility: hidden;
+    
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    z-index: 2300; /* Behind nav until opened */
+}
+
+/* Active State (Open) */
+.filter-dropdown.open {
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
+    transform: translateX(-50%) scale(1);
+    top: 70px; /* Slide down animation */
+}
+
+/* 3. Style the Filter Buttons inside */
+.filter-dropdown .filter-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #ccc;
+    padding: 10px 20px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: inherit;
+    width: 100%; /* Full width */
+}
+
+.filter-dropdown .filter-btn:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: var(--gold);
+}
+
+.filter-dropdown .filter-btn.active {
+    background: var(--gold);
+    color: #000;
+    font-weight: bold;
+    box-shadow: 0 0 15px var(--gold-glow);
+}
+
+/* Remove old nav-right styling if needed, or add this helper */
+.nav-right {
+    display: flex; align-items: center; gap: 15px;
+}
+/* =========================================
+   CENTERED MAP VIEWPORT (Fixes Map Position)
+   ========================================= */
+.map-viewport {
+    position: relative;
+    width: 100%;
+    height: 100vh;           /* Full Screen Height */
+    
+    /* FLEXBOX CENTERING */
+    display: flex;
+    justify-content: center; /* Center Horizontally */
+    align-items: center;     /* Center Vertically */
+    
+    /* NAV BAR PROTECTION */
+    padding-top: 80px;       /* Push map down so it doesn't hide behind Nav */
+    box-sizing: border-box;
+    
+    overflow: hidden;
+}
+
+/* MOBILE ADJUSTMENT */
+@media screen and (max-width: 768px) {
+    .map-viewport {
+        padding-top: 100px;      /* More space on phone */
+        align-items: flex-start; /* Start map near top on phone */
+    }
+}
+/* =========================================
+   5. PINS (أيقونات ملونة)
+   ========================================= */
+.map-pin {
+    position: absolute; transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center;
+    cursor: pointer; z-index: 10; transition: 0.4s;
+}
+
+.pin-icon {
+    width: 30px; height: 30px;
+    background: rgba(0,0,0,0.8);
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    color: var(--gold); font-size: 0.8rem;
+    box-shadow: 0 0 15px var(--gold-glow);
+    transition: 0.3s; backdrop-filter: blur(5px);
+    flex-shrink: 0;
+}
+
+/* Color Coding */
+.map-pin[data-type="sea"] .pin-icon { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 15px var(--cyan-glow); }
+.map-pin[data-type="oasis"] .pin-icon, .map-pin[data-type="nature"] .pin-icon { border-color: var(--green); color: var(--green); box-shadow: 0 0 15px var(--green-glow); }
+
+/* Pulse Animation */
+.pin-pulse {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 40px; height: 40px; border: 1px solid var(--gold); border-radius: 50%;
+    animation: pulse 2s infinite; pointer-events: none; opacity: 0;
+}
+.map-pin[data-type="sea"] .pin-pulse { border-color: var(--cyan); }
+.map-pin[data-type="oasis"] .pin-pulse { border-color: var(--green); }
+.map-pin[data-type="nature"] .pin-pulse { border-color: var(--green); }
+
+/* Pin Label */
+.pin-label {
+    margin-top: 8px; font-size: 0.75rem; font-weight: bold;
+    background: rgba(0,0,0,0.8); padding: 3px 10px; border-radius: 4px; border: 1px solid #333;
+    white-space: nowrap; transition: 0.3s; color: #ddd;
+}
+
+/* Hover Effects */
+.map-pin:hover { z-index: 50; transform: translate(-50%, -65%) scale(1.15); }
+.map-pin:hover .pin-icon { background: var(--gold); color: #000; box-shadow: 0 0 30px var(--gold); }
+.map-pin[data-type="sea"]:hover .pin-icon { background: var(--cyan); color: #000; box-shadow: 0 0 30px var(--cyan); }
+.map-pin[data-type="oasis"]:hover .pin-icon { background: var(--green); color: #000; box-shadow: 0 0 30px var(--green); }
+.map-pin[data-type="nature"]:hover .pin-icon { background: var(--green); color: #000; box-shadow: 0 0 30px var(--green); }
+
+/* =========================================
+   FLOATING SIDE PANEL
+   ========================================= */
+.city-panel {
+    position: fixed;
+    top: 50%; /* Center Vertically */
+    right: -500px; /* Hidden off-screen */
+    width: 400px;
+    height: 75vh; /* Not full height, just 75% */
+    
+    /* Floating Card Look */
+    transform: translateY(-50%); 
+    background: rgba(10, 12, 15, 0.95); /* Dark Glass */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    
+    /* Borders & shape */
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    box-shadow: -10px 10px 50px rgba(0, 0, 0, 0.8), 
+                0 0 20px rgba(212, 175, 55, 0.1);
+    
+    z-index: 200;
+    transition: right 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy entry */
+    
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+
+/* Active State (Slide in) */
+.city-panel.open {
+    right: 30px; /* Floats 30px from the edge */
+}
+
+/* English Mode Mirror */
+body.english-mode .city-panel {
+    left: -500px;
+    right: auto;
+}
+body.english-mode .city-panel.open {
+    left: 30px;
+}
+
+/* Panel Header */
+.panel-header {
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+    padding-bottom: 15px;
+}
+.panel-header h2 {
+    color: var(--gold);
+    font-size: 2rem;
+    margin: 0;
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+
+/* Scrollable Area */
+.sites-section {
+    flex-grow: 1; /* Fills remaining space */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Contains the scroll */
+}
+
+.sites-section h3 {
+    color: var(--cyan);
+    margin-bottom: 15px;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+/* The List Itself */
+#sitesList {
+    overflow-y: auto; /* Enables Scroll */
+    padding-right: 10px; /* Space for scrollbar */
+    padding-left: 5px;
+}
+
+/* Close Button */
+.close-panel {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid #333;
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex; align-items: center; justify-content: center;
+}
+.close-panel:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    transform: rotate(90deg);
+}
+body.english-mode .close-panel {
+    left: auto;
+    right: 15px;
+}
+
+/* MOBILE ADJUSTMENT */
+@media screen and (max-width: 768px) {
+    .city-panel {
+        width: 100%;
+        height: 60vh; /* Bottom sheet on mobile */
+        top: auto;
+        bottom: -70vh;
+        right: 0;
+        left: 0;
+        transform: none; /* Remove vertical center */
+        border-radius: 25px 25px 0 0;
+        border: none;
+        border-top: 2px solid var(--gold);
+    }
+    .city-panel.open {
+        right: 0;
+        bottom: 0;
+    }
+    body.english-mode .city-panel.open {
+        left: 0;
+    }
+}
+
+/* =========================================
+   CUSTOM SCROLLBAR (Theme Matching)
+   ========================================= */
+.custom-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    margin: 10px 0; /* Spacing from top/bottom */
+    border-radius: 10px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, var(--gold), var(--gold-glow));
+    border-radius: 10px;
+    border: 1px solid #000;
+}
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #fff;
+    box-shadow: 0 0 10px var(--gold);
+}
+
+.panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px; }
+.panel-header h2 { color: var(--gold); font-size: 2.5rem; margin: 0; }
+.panel-desc { color: #bbb; line-height: 1.7; margin-bottom: 30px; font-size: 0.95rem; }
+
+.site-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 15px; background: rgba(255,255,255,0.03); border: 1px solid transparent;
+    border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: 0.3s;
+}
+.site-item:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.1); transform: translateX(-5px); }
+.site-item span { font-weight: bold; font-size: 0.9rem; }
+.site-item i { color: var(--gold); font-size: 0.8rem; }
+
+.close-panel { background: none; border: none; color: #666; font-size: 1.5rem; cursor: pointer; transition: 0.3s; }
+.close-panel:hover { color: var(--gold); transform: rotate(90deg); }
+
+.panel-reset-btn {
+    margin-top: 20px; /* Space from the list */
+    width: 100%;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: inherit; /* Inherits Cairo/Raleway */
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-shrink: 0; /* Prevents squashing */
+}
+
+.panel-reset-btn:hover {
+    background: var(--gold);
+    color: #000;
+    box-shadow: 0 0 20px var(--gold-glow);
+    transform: translateY(-2px);
+}
+
+.panel-reset-btn i {
+    font-size: 1.2rem;
+}
+/* =========================================
+   7. SITE DETAIL MODAL (HIGH-TECH UPGRADE)
+   ========================================= */
+
+/* The Modal Overlay */
+.site-modal {
+    position: fixed; inset: 0; 
+    background: rgba(0,0,0,0.95); /* Darker for focus */
+    z-index: 2000;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; 
+    transition: 0.4s; backdrop-filter: blur(10px);
+}
+.site-modal.active { opacity: 1; pointer-events: all; }
+
+/* The Card Itself */
+.modal-card {
+    width: 650px; max-width: 90%; 
+    background: linear-gradient(145deg, #0b0b0b 0%, #050505 100%);
+    border: 1px solid var(--gold);
+    border-radius: 15px; 
+    overflow: hidden; 
+    transform: scale(0.9) translateY(20px); 
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 80px rgba(212, 175, 55, 0.15);
+    position: relative;
+}
+.site-modal.active .modal-card { transform: scale(1) translateY(0); }
+
+/* --- ANIMATED IMAGE BOX --- */
+.modal-image-box { 
+    height: 300px; 
+    position: relative; 
+    overflow: hidden; 
+    border-bottom: 2px solid var(--gold);
+}
+
+/* 1. The Image Pan Animation */
+.modal-image-box img { 
+    width: 100%; height: 100%; 
+    object-fit: cover; 
+    animation: panImage 20s infinite alternate linear;
+}
+
+/* 2. The Tech Grid Overlay */
+.modal-image-box::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(212,175,55,0.1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(212,175,55,0.1) 1px, transparent 1px);
+    background-size: 30px 30px;
+    opacity: 0.3; pointer-events: none; z-index: 2;
+}
+
+/* 4. Vignette for Drama */
+.img-overlay {
+    position: absolute; inset: 0; 
+    background: radial-gradient(circle, transparent 40%, #000 120%);
+    z-index: 2;
+}
+
+/* --- THE NEW CLOSE BUTTON --- */
+.close-modal {
+    position: absolute; top: 15px; right: 15px; 
+    width: 45px; height: 45px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    color: var(--gold);
+    font-size: 1.2rem;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; z-index: 20;
+    transition: 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bouncy hover */
+    backdrop-filter: blur(5px);
+}
+
+.close-modal:hover {
+    background: var(--gold);
+    color: #000;
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 20px var(--gold-glow);
+}
+
+body.english-mode .close-modal {
+    right: 15px; left: auto; /* Ensure it stays right even in English mode */
+}
+
+/* Content Styling */
+.modal-content { padding: 35px; text-align: center; }
+.modal-content h2 { 
+    color: var(--gold); font-size: 2.2rem; margin-bottom: 10px; 
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+.modal-divider { 
+    width: 100px; height: 2px; background: var(--gold); 
+    margin: 0 auto 20px; 
+}
+.modal-btn { 
+    display: inline-block; padding: 12px 40px; margin-top: 10px;
+    background: transparent; border: 1px solid var(--gold);
+    color: var(--gold); font-weight: bold; text-decoration: none;
+    font-family: inherit; transition: 0.3s;
+    position: relative; overflow: hidden;
+}
+.modal-btn:hover {
+    background: var(--gold); color: black;
+    box-shadow: 0 0 25px var(--gold-glow);
+    letter-spacing: 2px;
+}
+
+/* ANIMATIONS */
+@keyframes scanLine {
+    0% { top: -10%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 110%; opacity: 0; }
+}
+
+@keyframes panImage {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.2); }
+}
+/* Mobile */
+/* =========================================
+   MOBILE RESPONSIVENESS FIXES (FINAL)
+   ========================================= */
+@media screen and (max-width: 768px) {
+    
+    /* 1. NAV BAR & SEARCH FIX */
+    nav {
+        padding: 0.8rem 1rem;
+        flex-wrap: wrap; /* Allows items to drop to next line */
+        height: auto;    /* Let height grow */
+        gap: 10px;       /* Space between rows */
+        background: rgba(5, 5, 5, 0.85); /* Darker background for readability */
+    }
+
+
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+        white-space: nowrap; /* Keep text on one line */
+        flex-shrink: 0;      /* Prevent squishing */
+    }
+
+    /* 3. MAP ADJUSTMENTS */
+    .map-transform-layer {
+        margin-top: 80px; /* Push map down so it doesn't hide behind new big Nav */
+        transform: scale(1); /* Reset scale */
+        width: 100%;
+    }
+
+    /* 4. CITY PANEL (Bottom Sheet) */
+    .city-panel {
+        height: 60vh;
+        bottom: -70vh; /* Hidden */
+        z-index: 300;  /* Above filter dock */
+    }
+    .city-panel.open {
+        bottom: 0;
+    }
+}
+@keyframes pulse { 0% { opacity: 1; transform: translate(-50%,-50%) scale(0.5); } 100% { opacity: 0; transform: translate(-50%,-50%) scale(1.5); } }
+/* HERO TITLE ANIMATION */
+.logo span {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--gold) 0%, #fff 50%, var(--gold) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shineText 5s linear infinite, slideInHero 1.5s ease-out forwards;
+    opacity: 0; /* Starts hidden */
+}
+
+/* The Shine Effect */
+@keyframes shineText {
+    to { background-position: 200% center; }
+}
+
+/* The Entrance Effect */
+@keyframes slideInHero {
+    0% { opacity: 0; transform: translateY(-20px) scale(0.9); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* =========================================
+   4. PRELOADER (THE PORTAL)
+   ========================================= */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.loader-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ring-outer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 2px solid transparent;
+    border-top-color: var(--gold);
+    border-bottom-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 3s linear infinite;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+}
+
+.ring-inner {
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    border: 2px solid transparent;
+    border-left-color: var(--gold-glow);
+    border-right-color: var(--gold-glow);
+    border-radius: 50%;
+    animation: spin-reverse 1.5s linear infinite;
+}
+
+.pyramid-core {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 35px solid var(--gold);
+    filter: drop-shadow(0 0 10px var(--gold));
+    animation: pulse-core 1s ease-in-out infinite alternate;
+}
+
+.loading-text {
+    position: absolute;
+    bottom: -40px;
+    color: var(--gold);
+    font-family: 'Reem Kufi', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    animation: fade-text 2s infinite;
+    width: 200px;
+    text-align: center;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes spin-reverse { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
+@keyframes pulse-core { 0% { opacity: 0.6; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1.1); filter: drop-shadow(0 0 20px var(--gold)); } }
+@keyframes fade-text { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* =========================================
+   BOTTOM FLOATING DOCK
+   ========================================= */
+.filter-dock {
+    position: fixed;
+    bottom: 30px;          /* Distance from bottom */
+    left: 50%;
+    transform: translateX(-50%); /* Center Horizontally */
+    z-index: 200;          /* Above everything */
+    
+    display: flex;
+    gap: 8px;
+    padding: 10px 15px;
+    
+    /* The Glass Look */
+    background: rgba(20, 20, 25, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    
+    /* Allow scrolling on small phones */
+    max-width: 90%;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+}
+
+/* Hide scrollbar Chrome/Safari */
+.filter-dock::-webkit-scrollbar { display: none; }
+
+.filter-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: #bbb;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    flex-shrink: 0; /* Prevent squishing */
+    font-family: var(--font-ar-text); 
+    font-weight: bold;
+
+}
+body.english-mode .filter-btn {
+    font-family: var(--font-en-text);
+}
+.filter-btn:hover {
+    color: var(--gold);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.filter-btn.active {
+    background: var(--gold);
+    color: #000;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+    transform: scale(1.05);
+}
+/* PLACE THIS IN YOUR map.css */
+
+/* =========================================
+   RESPONSIVE MAP CONTAINER
+   ========================================= */
+.map-transform-layer {
+    position: relative;
+    width: 100%;             /* Fits the screen width */
+    max-width: 450px;        /* Stops getting too big on PC (Matches your 450px setting) */
+    aspect-ratio: 450/560;   /* LOCKS the shape so it never stretches */
+    margin: 0;
+    transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+    transform-origin: center center;
+    will-change: transform;
+    /* Removed fixed height so it adjusts automatically */
+}
+
+.map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg) brightness(1.2) contrast(1.5) drop-shadow(0 0 5px #D4AF37);
+
+    opacity: 0.9;
+
+    transition: all 0.5s ease;
+
+}
+/* Optional: Make it pulse slightly on hover */
+
+.map-wrapper:hover .map-image {
+
+    filter: invert(1) sepia(1) saturate(5) hue-rotate(10deg) brightness(1.4) contrast(1.5) drop-shadow(0 0 15px #D4AF37);
+
+    transform: scale(1.02);
+
+
+}
+
+/* Pins Container must fill the map exactly */
+#pinsContainer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+}
+
+/* Mobile Fix: Remove the old 'transform: scale' block */
+@media screen and (max-width: 768px) {
+    .map-transform-layer {
+        /* No scaling needed anymore! 
+           The 'width: 100%' above handles it naturally. */
+        margin-top: 20px; 
+    }
+}
+
+
+

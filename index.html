@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خريطه التراث  | Map of Heritage</title>
+    <meta property="og:title" content="خريطة الخلود | Ancient Future Map">
+    <meta property="og:description" content="استكشف تاريخ مصر القديمة وسحر المستقبل في خريطة تفاعلية واحدة. | Explore Ancient Egypt in a futuristic interactive map.">
+    <meta property="og:image" content="HomeBG"> <meta property="og:url" content="https://yourwebsite.com"> <meta property="og:type" content="website">
+
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="خريطة الخلود | Map of Eternity">
+    <meta name="twitter:description" content="Explore Egypt's history in a new dimension.">
+    <meta name="twitter:image" content="HomeBG">
+    <link rel="icon" type="image/png" href="Resources/UI/logo.png">
+    <link rel="stylesheet" href="home.css">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="مصر: إمبراطورية الخلود">
+    <meta property="og:description" content="رحلة تفاعلية عبر الزمن لاستكشاف معالم مصر القديمة.">
+    <meta property="og:image" content="Resources/UI/HomeBG.png">
+</head>
+<body>
+
+    <div id="preloader">
+        <div class="loader-container">
+            <div class="ring-outer"></div>
+            <div class="ring-inner"></div>
+            <div class="pyramid-core"></div>
+            <p class="loading-text" data-lang="loading">جاري فتح البوابة...</p>
+        </div>
+    </div>
+
+    <div class="bg-container">
+        <div class="overlay"></div>
+    </div>
+
+    <nav>
+        <div class="logo">
+            <img src="Resources/UI/logo.png" alt="Logo" class="logo-img">
+            <span data-lang="logo">مصر القديمة</span>
+        </div>
+        
+        <div class="lang-switch">
+            <span id="lang-ar" class="active">عربي</span> | <span id="lang-en">EN</span>
+        </div>
+    </nav>
+
+    <main>
+        <div class="hero-title">
+            <h1 data-lang="title">مـصـر</h1>
+            <p class="subtitle" data-lang="subtitle">حـضـارة الـخـلـود</p>
+        </div>
+
+        <a href="map.html" class="cta-button" id="startBtn" data-lang="cta">
+            ابدأ الرحلة
+        </a>
+
+        <div class="artifact-card">
+            <div class="artifact-label" data-lang="relic_label">أثر اليوم</div>
+            <h3 class="artifact-name" data-lang="relic_name">قناع توت عنخ آمون</h3>
+            <p class="artifact-desc" data-lang="relic_desc">تم اكتشافه عام 1922، ويُعد الرمز الأشهر والأنقى للحضارة المصرية القديمة.</p>
+        </div>
+        
+        <div class="social-links">
+            <a href="#">FB</a>
+            <a href="#">IG</a>
+            <a href="#">Credit</a>
+        </div>
+    </main>
+
+    <div class="timeline-container">
+        <div class="timeline-info" id="timelineText">3100 ق.م: توحيد القطرين على يد مينا</div>
+        
+        <div class="timeline-line">
+            <div class="timeline-dot active" 
+                 data-text="3100 ق.م: توحيد القطرين على يد الملك مينا"
+                 data-text-en="3100 BC: Unification of Upper & Lower Egypt"></div>
+                 
+            <div class="timeline-dot" 
+                 data-text="2560 ق.م: اكتمال بناء الهرم الأكبر"
+                 data-text-en="2560 BC: Completion of the Great Pyramid"></div>
+                 
+            <div class="timeline-dot" 
+                 data-text="1274 ق.م: معركة قادش العظيمة"
+                 data-text-en="1274 BC: The Battle of Kadesh"></div>
+                 
+            <div class="timeline-dot" 
+                 data-text="332 ق.م: دخول الإسكندر الأكبر مصر"
+                 data-text-en="332 BC: Alexander the Great Arrives"></div>
+                 
+            <div class="timeline-dot" 
+                 data-text="30 ق.م: نهاية عصر البطالمة ووفاة كليوباترا"
+                 data-text-en="30 BC: Death of Cleopatra"></div>
+        </div>
+    </div>
+
+    <script src="home.js"></script>
+</body>
+</html>
